@@ -3,7 +3,7 @@ name: ClawCloud 自动登录保活
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 2 * * 1'  # UTC 7:00，每5天运行
+    - cron: '0 2 * * 1'  # UTC 2:00，每周一运行
 
 permissions:
   contents: write
@@ -15,15 +15,16 @@ jobs:
 
     steps:
       - name: 检出代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6  # 已升级至 v6 (支持 Node 24)
 
       - name: 设置 Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6  # 已升级至 v6 (支持 Node 24)
         with:
-          python-version: '3.11'
+          python-version: '3.12'  # 建议升级到 3.12 配合最新的 Actions
 
       - name: 安装依赖
         run: |
+          python -m pip install --upgrade pip
           pip install playwright requests pynacl
           playwright install chromium
           playwright install-deps
